@@ -21,7 +21,6 @@ public class SecurityConfig {
         return new testService();
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
