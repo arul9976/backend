@@ -12,7 +12,6 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Service
 public class UserDataService {
-
     @Autowired
     UserDataRepo userDataRepo;
 
