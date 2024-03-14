@@ -38,22 +38,22 @@ public class testController {
     }
 
     @GetMapping("/users")
-    public String hello() {
-        return "ResponseEntity";
+    public List<User> hello() {
+        return testService.getUser();
     }
 
     @PostMapping("/isUser")
     public ResponseEntity<?> GetUserByUsername(@RequestBody User newUser) {
-        // try {
-        //     if (testService.GetUserByUsername(newUser)) {
-        //         String Token = jwtService.generateToken(newUser.getUsername());
-        //         return new ResponseEntity<>(Token, HttpStatus.OK);
-        //     } else {
-        //         return new ResponseEntity<>("Incorrect Password", HttpStatus.ACCEPTED);
-        //     }
-        // } catch (Exception E) {
+        try {
+            if (testService.GetUserByUsername(newUser)) {
+                String Token = jwtService.generateToken(newUser.getUsername());
+                return new ResponseEntity<>(Token, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Incorrect Password", HttpStatus.ACCEPTED);
+            }
+        } catch (Exception E) {
             return new ResponseEntity<>("User Not Found", HttpStatus.ACCEPTED);
-        // }
+        }
 
     }
 
