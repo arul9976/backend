@@ -1,8 +1,11 @@
 package com.example.first.Notes;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.client.result.DeleteResult;
@@ -34,7 +37,22 @@ public class UserDataService {
         return mongoTemplate.findAll(UserData.class, Username);
     }
 
-    public DeleteResult DeleteUserById(String id, String CollectionName ) {
+    public String UpdateData(String id, String CollectionName, UserData updatedData) {
+        try {
+            Update update = new Update().set("Heading", updatedData.getHeading()).set("Content",
+                    updatedData.getContent()).set("Radio", updatedData.getRadio());
+            mongoTemplate.findAndModify(query(where("_id").is(id)), update,
+                    FindAndModifyOptions.options().returnNew(true), UserData.class, CollectionName);
+            return "Data Updated";
+        }
+
+        catch (Exception E) {
+            throw E;
+        }
+
+    }
+
+    public DeleteResult DeleteUserById(String id, String CollectionName) {
         try {
             return mongoTemplate.remove(query(where("_id").is(id)), CollectionName);
         } catch (Exception E) {
@@ -42,4 +60,5 @@ public class UserDataService {
         }
 
     }
+
 }

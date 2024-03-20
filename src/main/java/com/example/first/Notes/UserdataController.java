@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,14 +48,22 @@ public class UserdataController {
     }
 
     @DeleteMapping("/userData/RemoveData/{CollectionName}/{id}")
-    public ResponseEntity<?> DeleteDataById(@PathVariable String CollectionName, @PathVariable String id){
-        try{
+    public ResponseEntity<?> DeleteDataById(@PathVariable String CollectionName, @PathVariable String id) {
+        try {
             return new ResponseEntity<>(userDataService.DeleteUserById(id, CollectionName), HttpStatus.OK);
-        }
-        catch(Exception E){
-           return new ResponseEntity<>(E.toString(), HttpStatus.OK);
+        } catch (Exception E) {
+            return new ResponseEntity<>(E.toString(), HttpStatus.OK);
 
         }
-        
+
+    }
+
+    @PutMapping("/userData/UpdateUserData")
+    public ResponseEntity<?> UpdateDataById(@RequestBody UserData updatedData) {
+        try {
+            return new ResponseEntity<>(userDataService.UpdateData(updatedData.getId(), updatedData.getUsername(), updatedData), HttpStatus.OK);
+        } catch (Exception E) {
+            return new ResponseEntity<>(E.toString(), HttpStatus.OK);
+        }
     }
 }
